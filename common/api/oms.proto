@@ -1,0 +1,90 @@
+
+// OMS API
+// Using protobuffer version 3.
+syntax = "proto3";
+// package oms;
+// The generated Go package belongs at this Go import path. Later another service can import your shared API definitions:
+// This becomes especially useful in microservices because both the client and server need to understand the same contract.
+option go_package = "github.com/BabarMaqsood10/commons/api";
+// 
+package api;
+
+// OMS API
+// a request goes to createOrder from orderservice , create a request to createorderrequest through grpc tp server and server to return order.
+// OrderService defines the gRPC service for managing orders.
+// request goes in , order come back.
+service OrderService {
+    // CreateOrder creates a new order with the provided customer ID and items.
+    rpc CreateOrder (CreateOrderRequest) returns (Order);
+}
+
+// Order represents an order with its details.
+// order is just simple as (type order struct) where we entities of a struct.
+// repeated means , item will have multiple items, like burgers, fries, drinks etc.
+// 1, 2, 3 are just number assingen to the fields, which is used in serialization and deserialization of the data.
+message Order {
+    string id = 1;
+    string customer_id = 2;
+     string status = 3;
+    repeated Item items = 4;
+   
+}
+// Item represents an item in an order.
+// same like order comments above
+message Item {
+    string id = 1;
+    string name = 2;
+    int32 quantity = 3;
+    string price_id= 4;
+}
+
+// ItemWithQuantity represents an item with its quantity for order creation.
+// same like order comments above
+// why itemwith quantity is used because when we create an order, we need to specify the item and how many of that item we want to order.
+message ItemWithQuantity  {
+    string id = 1;
+    int32 quantity = 2;
+  
+}
+
+// CreateOrderRequest represents the request to create a new order.
+//why createorderrequest is called above is because when we create an order, we need to specify the customer ID and the items with their quantities.
+message CreateOrderRequest {
+    string customer_id = 1;
+    repeated ItemWithQuantity items = 2;
+}
+
+
+
+
+
+
+// "I wrote one contract, and protoc generated all the boring Go networking/type code necessary for both sides to follow that contract."
+
+/*
+Relate it to your e-commerce project
+This will probably make it click.
+In your e-commerce API, you had something roughly like:
+HTTP request
+     ↓
+Router
+     ↓
+Handler
+     ↓
+Service/Store
+     ↓
+Database
+In this OMS, you're learning another layer:
+Gateway
+   ↓
+gRPC Client
+   ↓
+──── network ────
+   ↓
+gRPC Server
+   ↓
+Handler / Service
+   ↓
+Business logic
+
+*/

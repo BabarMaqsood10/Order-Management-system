@@ -1,0 +1,3 @@
+We have one handler already in gateway , why another is needed in orders?
+Can another Service call orders , why it does , and how id does , and how it works?
+how is the gateway fuction like ,Createorder is connected to each other , through grpc ?

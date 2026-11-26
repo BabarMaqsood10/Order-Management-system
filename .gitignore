@@ -1,0 +1,12 @@
+cat > .gitignore <<'EOF'
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Temporary build files
+**/tmp/
+
+# macOS
+.DS_Store
+EOF
